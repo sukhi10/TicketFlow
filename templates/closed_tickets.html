@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Closed Tickets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.55s ease forwards;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 text-slate-800 min-h-screen">
+    <nav class="bg-slate-950/95 backdrop-blur text-white border-b border-slate-800 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <span class="font-extrabold text-lg">T</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold tracking-tight">TicketFlow</h1>
+            <p class="text-xs text-slate-400">Closed Ticket Archive</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6 text-sm font-medium">
+          <a href="/dashboard" class="hover:text-blue-400 transition">Dashboard</a>
+          <a href="/closed_tickets" class="hover:text-blue-400 transition">Closed Tickets</a>
+          <a href="/logout" class="hover:text-red-400 transition">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-emerald-900 to-slate-900 text-white p-8 mb-8 shadow-xl fade-up">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_white,_transparent_35%)]"></div>
+        <div class="relative grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          <div class="lg:col-span-2">
+            <p class="uppercase tracking-[0.25em] text-xs text-emerald-200 mb-3">
+              Sysadmin Archive
+            </p>
+            <h2 class="text-3xl md:text-4xl font-bold leading-tight">
+              Review resolved and cancelled tickets
+            </h2>
+            <p class="text-slate-300 mt-3 max-w-2xl">
+              Search historical tickets, reopen workflow when needed, and keep visibility into past support work.
+            </p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-5 shadow-lg">
+            <p class="text-sm text-slate-300">Archive Size</p>
+            <p class="text-4xl font-bold mt-2">{{ tickets|length }}</p>
+            <p class="text-xs text-slate-400 mt-2">Resolved + Cancelled records</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <div class="xl:col-span-3 space-y-6">
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Archive Tools</h3>
+            <div class="space-y-3">
+              <a
+                href="/dashboard"
+                class="block text-center rounded-2xl bg-slate-900 text-white py-3 font-medium hover:bg-slate-800 transition"
+              >
+                Return to Dashboard
+              </a>
+
+              <a
+                href="/closed_tickets"
+                class="block text-center rounded-2xl border border-slate-300 bg-slate-50 text-slate-700 py-3 font-medium hover:bg-slate-100 transition"
+              >
+                Refresh Archive
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up" style="animation-delay: 0.07s;">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Archive Notes</h3>
+            <div class="space-y-3 text-sm">
+              <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                <p class="font-semibold text-slate-800">Resolved</p>
+                <p class="text-slate-500">Successfully handled and completed issues.</p>
+              </div>
+              <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                <p class="font-semibold text-slate-800">Cancelled</p>
+                <p class="text-slate-500">Tickets removed from active handling.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-slate-900 to-emerald-900 text-white rounded-3xl p-6 shadow-lg fade-up" style="animation-delay: 0.12s;">
+            <p class="text-xs uppercase tracking-[0.25em] text-emerald-200 mb-2">
+              Archive Insight
+            </p>
+            <h3 class="text-lg font-bold mb-2">Past work helps future support</h3>
+            <p class="text-sm text-slate-300">
+              Closed tickets can act like a knowledge base when similar issues show up again.
+            </p>
+          </div>
+        </div>
+
+        <div class="xl:col-span-9 bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-slate-900">Ticket Archive</h3>
+              <p class="text-sm text-slate-500">
+                Search and manage tickets that are no longer active
+              </p>
+            </div>
+
+            <div class="flex gap-3 flex-wrap">
+              <span class="px-3 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-medium border border-green-200">
+                Resolved
+              </span>
+              <span class="px-3 py-2 rounded-xl bg-red-50 text-red-700 text-sm font-medium border border-red-200">
+                Cancelled
+              </span>
+            </div>
+          </div>
+
+          <div class="relative mb-6">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+            <input
+              type="text"
+              id="searchBar"
+              placeholder="Search closed tickets by title, description, reporter, assignee, or status..."
+              onkeyup="filterTickets()"
+              class="w-full border border-slate-300 rounded-2xl pl-12 pr-4 py-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+            />
+          </div>
+
+          <div class="space-y-4 max-h-[900px] overflow-y-auto pr-1">
+            {% if tickets %}
+              {% for ticket in tickets %}
+              <div class="ticket bg-white rounded-3xl shadow-sm border border-slate-200 p-6 hover:shadow-lg transition">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+                  <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                      <a
+                        href="/ticket/{{ ticket[0] }}"
+                        class="text-xl font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+                      >
+                        {{ ticket[1] }}
+                      </a>
+
+                      <span class="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                        Ticket #{{ ticket[0] }}
+                      </span>
+
+                      <span
+                        class="px-3 py-1 rounded-full text-xs font-semibold
+                        {% if ticket[4] == 'High' %}
+                          bg-red-100 text-red-600
+                        {% elif ticket[4] == 'Medium' %}
+                          bg-yellow-100 text-yellow-700
+                        {% else %}
+                          bg-green-100 text-green-700
+                        {% endif %}"
+                      >
+                        {{ ticket[4] }} Priority
+                      </span>
+
+                      <span
+                        class="px-3 py-1 rounded-full text-xs font-semibold
+                        {% if ticket[5] == 'Resolved' %}
+                          bg-green-100 text-green-700
+                        {% else %}
+                          bg-red-100 text-red-700
+                        {% endif %}"
+                      >
+                        {{ ticket[5] }}
+                      </span>
+                    </div>
+
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                      {{ ticket[3] }}
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 text-sm">
+                      <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-3">
+                        <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">Reported By</p>
+                        <p class="font-medium text-slate-700">{{ ticket[2] }}</p>
+                      </div>
+
+                      <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-3">
+                        <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">Assignee</p>
+                        <p class="font-medium text-slate-700">{{ ticket[6] if ticket[6] else "Unassigned" }}</p>
+                      </div>
+
+                      <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-3">
+                        <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">Created At</p>
+                        <p class="font-medium text-slate-700">{{ ticket[7] if ticket[7] else "Not set" }}</p>
+                      </div>
+
+                      <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-3">
+                        <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">Resolved By</p>
+                        <p class="font-medium text-slate-700">{{ ticket[8] if ticket[8] else "Not set" }}</p>
+                      </div>
+
+                      <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-3">
+                        <p class="text-xs uppercase tracking-wide text-slate-400 mb-1">Status</p>
+                        <p class="font-medium text-slate-700">{{ ticket[5] }}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="lg:min-w-[280px]">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                      <h4 class="font-semibold text-slate-900 mb-3">Update Status</h4>
+
+                      <form action="/update_status/{{ ticket[0] }}" method="POST" class="space-y-3">
+                        <label
+                          for="status_{{ ticket[0] }}"
+                          class="block text-sm font-medium text-slate-600"
+                        >
+                          Change ticket status
+                        </label>
+                        <select
+                          id="status_{{ ticket[0] }}"
+                          name="status"
+                          class="w-full border border-slate-300 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        >
+                          <option value="Open" {% if ticket[5] == 'Open' %}selected{% endif %}>Open</option>
+                          <option value="Working On It" {% if ticket[5] == 'Working On It' %}selected{% endif %}>Working On It</option>
+                          <option value="Resolved" {% if ticket[5] == 'Resolved' %}selected{% endif %}>Resolved</option>
+                          <option value="Cancelled" {% if ticket[5] == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                        </select>
+
+                        <button
+                          type="submit"
+                          class="w-full rounded-xl bg-emerald-600 text-white py-2.5 text-sm font-medium hover:bg-emerald-700 transition"
+                        >
+                          Update Status
+                        </button>
+
+                        <a
+                          href="/ticket/{{ ticket[0] }}"
+                          class="block w-full text-center rounded-xl border border-blue-600 text-blue-600 px-4 py-2 text-sm font-medium hover:bg-blue-600 hover:text-white transition"
+                        >
+                          View Full Details
+                        </a>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="bg-white border border-slate-200 rounded-3xl shadow-sm p-10 text-center">
+                <div class="text-5xl mb-3">🗂️</div>
+                <h4 class="text-lg font-bold text-slate-800">No closed tickets yet</h4>
+                <p class="text-slate-500 mt-2">
+                  Resolved and cancelled tickets will appear here once they exist.
+                </p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function filterTickets() {
+        const query = document.getElementById("searchBar").value.toLowerCase();
+        const tickets = document.querySelectorAll(".ticket");
+
+        tickets.forEach((ticket) => {
+          const text = ticket.innerText.toLowerCase();
+          ticket.style.display = text.includes(query) ? "block" : "none";
+        });
+      }
+    </script>
+  </body>
+</html>

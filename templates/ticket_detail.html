@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ticket Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.55s ease forwards;
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-100 text-slate-800 min-h-screen">
+    <nav class="bg-slate-950 text-white border-b border-slate-800 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center font-bold shadow-lg">
+            T
+          </div>
+          <div>
+            <h1 class="text-xl font-bold">TicketFlow</h1>
+            <p class="text-xs text-slate-400">Ticket Investigation</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6 text-sm">
+          <a href="/dashboard" class="hover:text-blue-400">Dashboard</a>
+          <a href="/closed_tickets" class="hover:text-blue-400">Closed Tickets</a>
+          <a href="/logout" class="hover:text-red-400">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      <section class="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white rounded-3xl p-8 mb-8 shadow-xl fade-up">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          <div class="lg:col-span-2">
+            <p class="uppercase text-xs tracking-widest text-blue-200 mb-2">
+              Ticket Detail
+            </p>
+            <h2 class="text-3xl font-bold mb-2">
+              {{ ticket[1] }}
+            </h2>
+            <p class="text-slate-300">
+              Support request investigation panel
+            </p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur rounded-2xl px-6 py-5 text-center">
+            <p class="text-sm text-slate-300">Ticket ID</p>
+            <p class="text-4xl font-bold">#{{ ticket[0] }}</p>
+            <p class="text-xs text-slate-400 mt-2">Focused investigation view</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <div class="xl:col-span-8 space-y-6">
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up">
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold
+              {% if ticket[4]=='High' %}
+              bg-red-100 text-red-600
+              {% elif ticket[4]=='Medium' %}
+              bg-yellow-100 text-yellow-700
+              {% else %}
+              bg-green-100 text-green-700
+              {% endif %}">
+                {{ ticket[4] }} Priority
+              </span>
+
+              <span class="px-3 py-1 rounded-full text-xs font-semibold
+              {% if ticket[5]=='Open' %}
+              bg-yellow-100 text-yellow-700
+              {% elif ticket[5]=='Working On It' %}
+              bg-blue-100 text-blue-700
+              {% elif ticket[5]=='Resolved' %}
+              bg-green-100 text-green-700
+              {% else %}
+              bg-red-100 text-red-700
+              {% endif %}">
+                {{ ticket[5] }}
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold mb-2">Description</h3>
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6">
+              {{ ticket[3] }}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-slate-50 border rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Reported By</p>
+                <p class="font-semibold">{{ ticket[2] }}</p>
+              </div>
+
+              <div class="bg-slate-50 border rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Assigned To</p>
+                <p class="font-semibold">{{ ticket[6] if ticket[6] else "Unassigned" }}</p>
+              </div>
+
+              <div class="bg-slate-50 border rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Created At</p>
+                <p class="font-semibold">{{ ticket[7] if ticket[7] else "Not set" }}</p>
+              </div>
+
+              <div class="bg-slate-50 border rounded-xl p-4">
+                <p class="text-xs text-slate-400 mb-1">Resolved By</p>
+                <p class="font-semibold">{{ ticket[8] if ticket[8] else "Not resolved" }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up" style="animation-delay: 0.08s;">
+            <h3 class="text-lg font-bold mb-4">Internal Notes</h3>
+
+            <form action="/update_notes/{{ ticket[0] }}" method="POST" class="space-y-4">
+              <textarea
+                name="internal_notes"
+                rows="8"
+                class="w-full border border-slate-300 rounded-xl px-4 py-3 bg-slate-50 focus:ring-2 focus:ring-blue-400"
+                placeholder="Add internal notes for future reference..."
+              >{{ ticket[9] if ticket[9] else "" }}</textarea>
+
+              <button
+                type="submit"
+                class="w-full bg-slate-900 text-white py-3 rounded-xl hover:bg-slate-800 transition"
+              >
+                Save Notes
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="xl:col-span-4 space-y-6 fade-up">
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4">Assign Ticket</h3>
+
+            <form action="/assign_ticket/{{ ticket[0] }}" method="POST" class="space-y-4">
+              <input
+                type="text"
+                name="assignee"
+                value="admin"
+                class="w-full border border-slate-300 rounded-xl px-4 py-3 bg-slate-50"
+                readonly
+              />
+
+              <button
+                type="submit"
+                class="w-full bg-emerald-600 text-white py-3 rounded-xl font-medium hover:bg-emerald-700 transition"
+              >
+                Assign to Me
+              </button>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4">Update Status</h3>
+
+            <form action="/update_status/{{ ticket[0] }}" method="POST" class="space-y-4">
+              <select
+                name="status"
+                class="w-full border border-slate-300 rounded-xl px-4 py-3 bg-slate-50 focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="Open" {% if ticket[5]=='Open' %}selected{% endif %}>Open</option>
+                <option value="Working On It" {% if ticket[5]=='Working On It' %}selected{% endif %}>Working On It</option>
+                <option value="Resolved" {% if ticket[5]=='Resolved' %}selected{% endif %}>Resolved</option>
+                <option value="Cancelled" {% if ticket[5]=='Cancelled' %}selected{% endif %}>Cancelled</option>
+              </select>
+
+              <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition"
+              >
+                Update Status
+              </button>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-bold mb-4">Navigation</h3>
+            <div class="space-y-3">
+              <a
+                href="/dashboard"
+                class="block w-full text-center border border-slate-300 bg-slate-50 py-3 rounded-xl hover:bg-slate-100"
+              >
+                Back to Dashboard
+              </a>
+
+              <a
+                href="/closed_tickets"
+                class="block w-full text-center border border-slate-300 bg-slate-50 py-3 rounded-xl hover:bg-slate-100"
+              >
+                Closed Tickets
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-slate-900 to-blue-900 text-white rounded-3xl p-6 shadow-lg">
+            <p class="text-xs uppercase tracking-[0.25em] text-blue-200 mb-2">
+              Sysadmin Note
+            </p>
+            <h3 class="text-lg font-bold mb-2">Keep records clean</h3>
+            <p class="text-sm text-slate-300">
+              Good internal notes make recurring issues easier to resolve later.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

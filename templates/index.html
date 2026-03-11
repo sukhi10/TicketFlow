@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Submit Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes floatSoft {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.55s ease forwards;
+      }
+
+      .float-soft {
+        animation: floatSoft 4s ease-in-out infinite;
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-100 text-slate-800 min-h-screen">
+    <nav
+      class="bg-slate-950 text-white border-b border-slate-800 sticky top-0 z-50"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center font-bold shadow-lg"
+          >
+            T
+          </div>
+          <div>
+            <span class="text-xl font-bold">TicketFlow</span>
+            <p class="text-xs text-slate-400">Support Request Portal</p>
+          </div>
+        </div>
+
+        <div class="text-sm">
+          <a href="/login" class="hover:text-blue-400 transition"
+            >Helpdesk Login</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      <section
+        class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white p-8 mb-8 shadow-xl fade-up"
+      >
+        <div
+          class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_white,_transparent_35%)]"
+        ></div>
+
+        <div
+          class="relative grid grid-cols-1 lg:grid-cols-3 gap-6 items-center"
+        >
+          <div class="lg:col-span-2">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-sm mb-4"
+            >
+              <span class="float-soft">🎫</span>
+              Submit a support request
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-bold leading-tight">
+              Need help with something?
+            </h1>
+            <p class="text-slate-300 mt-3 max-w-2xl">
+              Submit your issue and the helpdesk team will review it, assign it,
+              and work toward resolution.
+            </p>
+          </div>
+
+          <div
+            class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-5 shadow-lg"
+          >
+            <p class="text-sm text-slate-300">Support Tip</p>
+            <p class="text-2xl font-bold mt-2">Be specific</p>
+            <p class="text-xs text-slate-400 mt-2">
+              Clear descriptions and the right priority help your issue get
+              solved faster.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <div
+          class="xl:col-span-7 bg-white rounded-3xl shadow-sm border border-slate-200 p-8 fade-up"
+        >
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-slate-900">Create a Ticket</h2>
+            <p class="text-slate-500 mt-1">
+              Fill out the form below so the support team has what they need.
+            </p>
+          </div>
+
+          <form action="/create_ticket" method="POST" class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-2">
+                Issue Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                class="w-full border border-slate-300 rounded-2xl px-4 py-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                placeholder="Example: My monitor is not turning on"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-2">
+                Your Name
+              </label>
+              <input
+                type="text"
+                id="reportedBy"
+                name="reportedBy"
+                class="w-full border border-slate-300 rounded-2xl px-4 py-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-2">
+                Describe the Problem
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows="6"
+                class="w-full border border-slate-300 rounded-2xl px-4 py-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                placeholder="Explain what happened, what you were doing, and any error messages you saw..."
+                onkeyup="checkEasterEgg()"
+                required
+              ></textarea>
+              <p id="easterEgg" class="text-sm text-blue-600 mt-2 hidden"></p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-2">
+                Priority
+              </label>
+              <select
+                id="priority"
+                name="priority"
+                class="w-full border border-slate-300 rounded-2xl px-4 py-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              >
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-slate-900 text-white py-3 rounded-2xl font-semibold hover:bg-slate-800 hover:scale-[1.01] transition"
+            >
+              Submit Ticket
+            </button>
+          </form>
+        </div>
+
+        <div class="xl:col-span-5 space-y-6">
+          <div
+            class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up"
+          >
+            <h3 class="text-lg font-bold text-slate-900 mb-4">
+              Before You Submit
+            </h3>
+            <div class="space-y-4 text-sm">
+              <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                <p class="font-semibold text-slate-800 mb-1">
+                  Include useful details
+                </p>
+                <p class="text-slate-500">
+                  Mention what device, system, or software is affected.
+                </p>
+              </div>
+              <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                <p class="font-semibold text-slate-800 mb-1">
+                  Describe what changed
+                </p>
+                <p class="text-slate-500">
+                  Say whether this started suddenly or after an update or
+                  restart.
+                </p>
+              </div>
+              <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                <p class="font-semibold text-slate-800 mb-1">
+                  Set the right priority
+                </p>
+                <p class="text-slate-500">
+                  High is best for urgent issues that block your work
+                  completely.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 fade-up"
+            style="animation-delay: 0.08s"
+          >
+            <h3 class="text-lg font-bold text-slate-900 mb-4">
+              Popular Issue Types
+            </h3>
+            <div class="grid grid-cols-2 gap-3 text-sm">
+              <div
+                class="rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 px-4 py-3"
+              >
+                Wi-Fi
+              </div>
+              <div
+                class="rounded-2xl bg-slate-50 text-slate-700 border border-slate-200 px-4 py-3"
+              >
+                Printer
+              </div>
+              <div
+                class="rounded-2xl bg-red-50 text-red-700 border border-red-100 px-4 py-3"
+              >
+                Monitor
+              </div>
+              <div
+                class="rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-100 px-4 py-3"
+              >
+                Login Access
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-slate-900 to-blue-900 text-white rounded-3xl p-6 shadow-lg fade-up"
+            style="animation-delay: 0.12s"
+          >
+            <p class="text-xs uppercase tracking-[0.25em] text-blue-200 mb-2">
+              TicketFlow Note
+            </p>
+            <h3 class="text-lg font-bold mb-2">
+              Helpful tickets get faster solutions
+            </h3>
+            <p class="text-sm text-slate-300">
+              The more clearly you explain the issue, the easier it is for the
+              helpdesk to prioritize and solve it.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function checkEasterEgg() {
+        const text = document.getElementById("description").value.toLowerCase();
+        const message = document.getElementById("easterEgg");
+
+        if (text.includes("printer")) {
+          message.innerText =
+            "Printer detected. The ancient enemy has appeared.";
+          message.classList.remove("hidden");
+        } else if (text.includes("wifi")) {
+          message.innerText =
+            "Wi-Fi issue detected. Classic. Hope the router is in a good mood.";
+          message.classList.remove("hidden");
+        } else if (text.includes("coffee")) {
+          message.innerText =
+            "Coffee mentioned. Ticket morale increased by 23 percent.";
+          message.classList.remove("hidden");
+        } else {
+          message.classList.add("hidden");
+        }
+      }
+    </script>
+  </body>
+</html>
