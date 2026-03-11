@@ -73,6 +73,10 @@ ticket-dashboard/
 
 > Dashboard, ticket detail, and submission form
 
+<img width="1467" height="770" alt="Screenshot 2026-03-10 at 8 27 56 PM" src="https://github.com/user-attachments/assets/43e72803-2a89-44f7-bacc-a43f4600ca3a" />
+<img width="1470" height="779" alt="Screenshot 2026-03-10 at 8 27 21 PM" src="https://github.com/user-attachments/assets/e304e626-f993-47cb-88c9-d97a50b358b5" />
+<img width="1470" height="779" alt="Screenshot 2026-03-10 at 8 26 53 PM" src="https://github.com/user-attachments/assets/5e9ad822-66b0-420b-bfb6-3aeddb21eb66" />
+
 ## Motivation
 
 Built this after using Jira daily during my IT internship at Arrow Machine and Fabrication. I wanted to understand how a ticketing system actually works end to end — from form submission to database design to session authentication.
