@@ -70,6 +70,8 @@ ticket-dashboard/
     ├── ticket_detail.html  # Individual ticket view
     ├── closed_tickets.html # Resolved/cancelled archive
     └── ticket_received.html # Submission confirmation
+    └── invalid_cred.html # Created 3 second timeout 
+
 ```
 
 ## Screenshots
