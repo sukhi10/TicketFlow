@@ -1,6 +1,6 @@
 # TicketFlow 🎫
 
-LIVE DEMO!!! 
+LIVE DEMO!!! (Only for hosting the website)
 https://ticketflow-604n.onrender.com
 
 A full stack IT helpdesk ticketing system built with Python and Flask, inspired by Jira. Built to understand how ticket management systems work under the hood.
