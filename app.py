@@ -1,8 +1,6 @@
-from flask import Flask, render_template, request, redirect, session 
+from flask import Flask, render_template, request, redirect, session
 import sqlite3
-from datetime import datetime 
-
-
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'helpdesk123'
@@ -15,6 +13,10 @@ def home():
 def login_page():
     return render_template('login.html')
 
+@app.route('/invalid_cred')
+def invalid_cred():
+    return render_template('invalid_cred.html')
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
@@ -24,7 +26,7 @@ def login():
         session['logged_in'] = True
         return redirect('/dashboard')
     else:
-        return "Invalid credentials"
+        return redirect('/invalid_cred')
 
 
 @app.route('/create_ticket', methods=['POST'])
@@ -161,9 +163,6 @@ def assign_ticket(ticket_id):
 
     return redirect(f'/ticket/{ticket_id}')
 
-
-
-
 @app.route('/logout')
 def logout():
     session.clear()
@@ -212,8 +211,3 @@ def closed_tickets():
 
 if __name__ == '__main__': 
     app.run(host='0.0.0.0', debug=True, port=8080)
-    '''The `0.0.0.0` means "listen on all network interfaces" — without it Flask only listens inside the container and your browser can't reach it.
-
-Save the file, then rebuild and run: '''
-
-
